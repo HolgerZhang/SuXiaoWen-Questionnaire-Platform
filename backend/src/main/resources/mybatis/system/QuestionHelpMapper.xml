@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suxiaowen.project.system.mapper.QuestionHelpMapper">
+
+    <resultMap id="BaseResultMap" type="com.suxiaowen.project.system.domain.QuestionHelp">
+            <id property="taskId" column="task_id" jdbcType="VARCHAR"/>
+            <result property="questionnaireId" column="questionnaire_id" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="BIGINT"/>
+            <result property="amount" column="amount" jdbcType="BIGINT"/>
+            <result property="counts" column="counts" jdbcType="BIGINT"/>
+            <result property="enabled" column="enabled" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        task_id,questionnaire_id,price,
+        amount,counts,enabled
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from question_help
+        where  task_id = #{taskId,jdbcType=VARCHAR} 
+    </select>
+
+    <select id="selectAllByQuestionnaireId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from question_help
+        where  questionnaire_id = #{questionnaireId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAllAvailableTask" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from question_help where enabled = '0'
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from question_help
+        where  task_id = #{taskId,jdbcType=VARCHAR} 
+    </delete>
+    <insert id="insert" keyColumn="task_id" keyProperty="taskId" parameterType="com.suxiaowen.project.system.domain.QuestionHelp" useGeneratedKeys="true">
+        insert into question_help
+        ( task_id,questionnaire_id,price
+        ,amount,counts,enabled
+        )
+        values (#{taskId,jdbcType=VARCHAR},#{questionnaireId,jdbcType=VARCHAR},#{price,jdbcType=BIGINT}
+        ,#{amount,jdbcType=BIGINT},#{counts,jdbcType=BIGINT},#{enabled,jdbcType=CHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="task_id" keyProperty="taskId" parameterType="com.suxiaowen.project.system.domain.QuestionHelp" useGeneratedKeys="true">
+        insert into question_help
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="taskId != null">task_id,</if>
+                <if test="questionnaireId != null">questionnaire_id,</if>
+                <if test="price != null">price,</if>
+                <if test="amount != null">amount,</if>
+                <if test="counts != null">counts,</if>
+                <if test="enabled != null">enabled,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="taskId != null">#{taskId,jdbcType=VARCHAR},</if>
+                <if test="questionnaireId != null">#{questionnaireId,jdbcType=VARCHAR},</if>
+                <if test="price != null">#{price,jdbcType=BIGINT},</if>
+                <if test="amount != null">#{amount,jdbcType=BIGINT},</if>
+                <if test="counts != null">#{counts,jdbcType=BIGINT},</if>
+                <if test="enabled != null">#{enabled,jdbcType=CHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.suxiaowen.project.system.domain.QuestionHelp">
+        update question_help
+        <set>
+                <if test="questionnaireId != null">
+                    questionnaire_id = #{questionnaireId,jdbcType=VARCHAR},
+                </if>
+                <if test="price != null">
+                    price = #{price,jdbcType=BIGINT},
+                </if>
+                <if test="amount != null">
+                    amount = #{amount,jdbcType=BIGINT},
+                </if>
+                <if test="counts != null">
+                    counts = #{counts,jdbcType=BIGINT},
+                </if>
+                <if test="enabled != null">
+                    enabled = #{enabled,jdbcType=CHAR},
+                </if>
+        </set>
+        where   task_id = #{taskId,jdbcType=VARCHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.suxiaowen.project.system.domain.QuestionHelp">
+        update question_help
+        set 
+            questionnaire_id =  #{questionnaireId,jdbcType=VARCHAR},
+            price =  #{price,jdbcType=BIGINT},
+            amount =  #{amount,jdbcType=BIGINT},
+            counts =  #{counts,jdbcType=BIGINT},
+            enabled =  #{enabled,jdbcType=CHAR}
+        where   task_id = #{taskId,jdbcType=VARCHAR} 
+    </update>
+</mapper>

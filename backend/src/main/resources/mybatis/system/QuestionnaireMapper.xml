@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suxiaowen.project.system.mapper.QuestionnaireMapper">
+
+    <resultMap id="BaseResultMap" type="com.suxiaowen.project.system.domain.Questionnaire">
+            <id property="questionnaireId" column="questionnaire_id" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="structure" column="structure" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="dueTime" column="due_time" jdbcType="TIMESTAMP"/>
+            <result property="questionnaireStatus" column="questionnaire_status" jdbcType="CHAR"/>
+            <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+            <result property="starFlag" column="star_flag" jdbcType="CHAR"/>
+            <result property="modifyFlag" column="modify_flag" jdbcType="CHAR"/>
+            <result property="anonymousFlag" column="anonymous_flag" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        questionnaire_id,title,introduction,
+        structure,user_id,create_time,
+        due_time,questionnaire_status,del_flag,
+        star_flag,modify_flag,anonymous_flag
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire
+        where  questionnaire_id = #{questionnaireId,jdbcType=VARCHAR} 
+    </select>
+
+    <select id="getAllRecord" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire
+    </select>
+
+    <select id="selectAllByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from questionnaire
+        where  questionnaire_id = #{questionnaireId,jdbcType=VARCHAR} 
+    </delete>
+    <insert id="insert" keyColumn="questionnaire_id" keyProperty="questionnaireId" parameterType="com.suxiaowen.project.system.domain.Questionnaire" useGeneratedKeys="true">
+        insert into questionnaire
+        ( questionnaire_id,title,introduction
+        ,structure,user_id,create_time
+        ,due_time,questionnaire_status,del_flag
+        ,star_flag,modify_flag,anonymous_flag
+        )
+        values (#{questionnaireId,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{introduction,jdbcType=VARCHAR}
+        ,#{structure,jdbcType=VARCHAR},#{userId,jdbcType=BIGINT},sysdate()
+        ,#{dueTime,jdbcType=TIMESTAMP},#{questionnaireStatus,jdbcType=CHAR},#{delFlag,jdbcType=CHAR}
+        ,#{starFlag,jdbcType=CHAR},#{modifyFlag,jdbcType=CHAR},#{anonymousFlag,jdbcType=CHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="questionnaire_id" keyProperty="questionnaireId" parameterType="com.suxiaowen.project.system.domain.Questionnaire" useGeneratedKeys="true">
+        insert into questionnaire
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="questionnaireId != null">questionnaire_id,</if>
+                <if test="title != null">title,</if>
+                <if test="introduction != null">introduction,</if>
+                <if test="structure != null">structure,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="dueTime != null">due_time,</if>
+                <if test="questionnaireStatus != null">questionnaire_status,</if>
+                <if test="delFlag != null">del_flag,</if>
+                <if test="starFlag != null">star_flag,</if>
+                <if test="modifyFlag != null">modify_flag,</if>
+                <if test="anonymousFlag != null">anonymous_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="questionnaireId != null">#{questionnaireId,jdbcType=VARCHAR},</if>
+                <if test="title != null">#{title,jdbcType=VARCHAR},</if>
+                <if test="introduction != null">#{introduction,jdbcType=VARCHAR},</if>
+                <if test="structure != null">#{structure,jdbcType=VARCHAR},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="dueTime != null">#{dueTime,jdbcType=TIMESTAMP},</if>
+                <if test="questionnaireStatus != null">#{questionnaireStatus,jdbcType=CHAR},</if>
+                <if test="delFlag != null">#{delFlag,jdbcType=CHAR},</if>
+                <if test="starFlag != null">#{starFlag,jdbcType=CHAR},</if>
+                <if test="modifyFlag != null">#{modifyFlag,jdbcType=CHAR},</if>
+                <if test="anonymousFlag != null">#{anonymousFlag,jdbcType=CHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.suxiaowen.project.system.domain.Questionnaire">
+        update questionnaire
+        <set>
+                <if test="title != null">
+                    title = #{title,jdbcType=VARCHAR},
+                </if>
+                <if test="introduction != null">
+                    introduction = #{introduction,jdbcType=VARCHAR},
+                </if>
+                <if test="structure != null">
+                    structure = #{structure,jdbcType=VARCHAR},
+                </if>
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=BIGINT},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="dueTime != null">
+                    due_time = #{dueTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="questionnaireStatus != null">
+                    questionnaire_status = #{questionnaireStatus,jdbcType=CHAR},
+                </if>
+                <if test="delFlag != null">
+                    del_flag = #{delFlag,jdbcType=CHAR},
+                </if>
+                <if test="starFlag != null">
+                    star_flag = #{starFlag,jdbcType=CHAR},
+                </if>
+                <if test="modifyFlag != null">
+                    modify_flag = #{modifyFlag,jdbcType=CHAR},
+                </if>
+                <if test="anonymousFlag != null">
+                    anonymous_flag = #{anonymousFlag,jdbcType=CHAR},
+                </if>
+        </set>
+        where   questionnaire_id = #{questionnaireId,jdbcType=VARCHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.suxiaowen.project.system.domain.Questionnaire">
+        update questionnaire
+        set 
+            title =  #{title,jdbcType=VARCHAR},
+            introduction =  #{introduction,jdbcType=VARCHAR},
+            structure =  #{structure,jdbcType=VARCHAR},
+            user_id =  #{userId,jdbcType=BIGINT},
+            create_time =  #{createTime,jdbcType=TIMESTAMP},
+            due_time =  #{dueTime,jdbcType=TIMESTAMP},
+            questionnaire_status =  #{questionnaireStatus,jdbcType=CHAR},
+            del_flag =  #{delFlag,jdbcType=CHAR},
+            star_flag =  #{starFlag,jdbcType=CHAR},
+            modify_flag =  #{modifyFlag,jdbcType=CHAR},
+            anonymous_flag =  #{anonymousFlag,jdbcType=CHAR}
+        where   questionnaire_id = #{questionnaireId,jdbcType=VARCHAR} 
+    </update>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suxiaowen.project.system.mapper.QuestionnaireAnswerMapper">
+
+    <resultMap id="BaseResultMap" type="com.suxiaowen.project.system.domain.QuestionnaireAnswer">
+            <id property="answerId" column="answer_id" jdbcType="VARCHAR"/>
+            <result property="questionnaireId" column="questionnaire_id" jdbcType="VARCHAR"/>
+            <result property="detail" column="detail" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="fillIp" column="fill_ip" jdbcType="VARCHAR"/>
+            <result property="starFlag" column="star_flag" jdbcType="CHAR"/>
+            <result property="answerStatus" column="answer_status" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        answer_id,questionnaire_id,detail,
+        user_id,create_time,fill_ip,
+        star_flag,answer_status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire_answer
+        where  answer_id = #{answerId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAllByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire_answer
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="searchInviteAnswerByQidUid" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire_answer
+        where questionnaire_id = #{questionnaireId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=BIGINT} and answer_status = '2'
+    </select>
+    <select id="selectAllByQuestionnaireId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from questionnaire_answer
+        where questionnaire_id = #{questionnaireId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from questionnaire_answer
+        where  answer_id = #{answerId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="answer_id" keyProperty="answerId" parameterType="com.suxiaowen.project.system.domain.QuestionnaireAnswer" useGeneratedKeys="true">
+        insert into questionnaire_answer
+        ( answer_id,questionnaire_id,detail
+        ,user_id,create_time,fill_ip
+        ,star_flag,answer_status)
+        values (#{answerId,jdbcType=VARCHAR},#{questionnaireId,jdbcType=VARCHAR},#{detail,jdbcType=VARCHAR}
+        ,#{userId,jdbcType=BIGINT},#{createTime,jdbcType=TIMESTAMP},#{fillIp,jdbcType=VARCHAR}
+        ,#{starFlag,jdbcType=CHAR},#{answerStatus,jdbcType=CHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="answer_id" keyProperty="answerId" parameterType="com.suxiaowen.project.system.domain.QuestionnaireAnswer" useGeneratedKeys="true">
+        insert into questionnaire_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="answerId != null">answer_id,</if>
+                <if test="questionnaireId != null">questionnaire_id,</if>
+                <if test="detail != null">detail,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="fillIp != null">fill_ip,</if>
+                <if test="starFlag != null">star_flag,</if>
+                <if test="answerStatus != null">answer_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="answerId != null">#{answerId,jdbcType=VARCHAR},</if>
+                <if test="questionnaireId != null">#{questionnaireId,jdbcType=VARCHAR},</if>
+                <if test="detail != null">#{detail,jdbcType=VARCHAR},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+                <if test="fillIp != null">#{fillIp,jdbcType=VARCHAR},</if>
+                <if test="starFlag != null">#{starFlag,jdbcType=CHAR},</if>
+                <if test="answerStatus != null">#{answerStatus,jdbcType=CHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.suxiaowen.project.system.domain.QuestionnaireAnswer">
+        update questionnaire_answer
+        <set>
+                <if test="questionnaireId != null">
+                    questionnaire_id = #{questionnaireId,jdbcType=VARCHAR},
+                </if>
+                <if test="detail != null">
+                    detail = #{detail,jdbcType=VARCHAR},
+                </if>
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=BIGINT},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="fillIp != null">
+                    fill_ip = #{fillIp,jdbcType=VARCHAR},
+                </if>
+                <if test="starFlag != null">
+                    star_flag = #{starFlag,jdbcType=CHAR},
+                </if>
+                <if test="answerStatus != null">
+                    answer_status = #{answerStatus,jdbcType=CHAR},
+                </if>
+        </set>
+        where   answer_id = #{answerId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.suxiaowen.project.system.domain.QuestionnaireAnswer">
+        update questionnaire_answer
+        set
+            questionnaire_id =  #{questionnaireId,jdbcType=VARCHAR},
+            detail =  #{detail,jdbcType=VARCHAR},
+            user_id =  #{userId,jdbcType=BIGINT},
+            create_time =  #{createTime,jdbcType=TIMESTAMP},
+            fill_ip =  #{fillIp,jdbcType=VARCHAR},
+            star_flag =  #{starFlag,jdbcType=CHAR},
+            answer_status =  #{answerStatus,jdbcType=CHAR}
+        where   answer_id = #{answerId,jdbcType=VARCHAR}
+    </update>
+</mapper>
